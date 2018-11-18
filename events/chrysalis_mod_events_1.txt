@@ -1,0 +1,429 @@
+namespace = chrysalis_mod
+
+#gatekeeper
+planet_event = {
+	id = chrysalis_mod.1
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = {
+					has_planet_flag = chrysalis_mod_chrysalis_capital
+				}
+			}
+			set_planet_flag = chrysalis_mod_chrysalis_capital
+			planet_event = { id = chrysalis_mod.2 days =1000 } #to be changed
+		}
+		random_list = {
+			40 = {
+				#fallen empire
+				if = { 
+					limit = { 
+						exists = { 
+							any_country = { 
+								limit = {
+									is_country_type = fallen_empire
+								}
+							}
+						}
+					}
+					random_country = {
+						limit = {
+							is_country_type = fallen_empire
+						}
+						set_country_flag = chrysalis_mod_ruiner
+					}
+				}
+					else = {
+						planet_event = { id = chrysalis_mod.1 }
+					}
+			}
+			40 = {
+				#nearby empire
+				if = { 
+					limit = { 
+						exists = { 
+							any_country = { 
+								limit = {
+									
+										is_ai = yes
+										NOT = { is_country_type = fallen_empire }
+									
+								}
+							}
+						}
+					}
+					random_country = {
+						limit = {
+							
+								is_ai = yes
+								NOT = { is_country_type = fallen_empire }
+							
+						}
+						set_country_flag = chrysalis_mod_ruiner
+					}
+				}
+					else = {
+						planet_event = { id = chrysalis_mod.1 }
+					}
+				
+			}
+			20 = {
+				set_planet_flag = chrysalis_mod_ruiner_precursor
+			}
+		}
+	}
+}
+
+planet_event = {
+	id = chrysalis_mod.2
+	hide_window = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+	
+	immediate = {
+		if = {
+			limit = {
+				has_planet_flag = chrysalis_mod_chrysalis_capital
+			}
+			create_species = {
+			name = "NAME_chrysalis_mod_drone_pop"
+			class = "MACHINE"
+			portrait = "hum_robot_red" #change
+			traits = {
+				trait = "trait_machine_unit"
+				trait = "trait_robot_efficient_processors"
+				trait = "trait_robot_double_jointed"
+				#maybe set these to random later
+			}
+			}
+			create_country = {
+						name = "NAME_chrysalis_mod_the_survivor"
+						type = default
+						species = last_created_species
+						ignore_initial_colony_error = yes
+						day_zero_contact = no
+						ethos = { ethic = ethic_gestalt_consciousness }
+						authority = auth_machine_intelligence
+						civics = {
+							civic = civic_mod_chrysallis_sentinel
+							civic = civic_mod_chrysallis_revenge
+						}
+						flag = random
+						effect = {							
+							species = { apply_robotic_pop_growth_behavior = yes }
+							save_event_target_as = current_chrysallis
+							country_event = { id = chrysalis_mod.3 } # setup happens here now
+						}
+					}
+				}
+			#populate
+			#flip system			
+	}
+}
+
+country_event = {
+	id = chrysalis_mod.3
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		save_event_target_as = current_chrysallis
+		any_country = {
+			limit = {
+				has_country_flag = chrysalis_mod_ruiner
+				NOT = {
+					has_country_flag = chrysalis_mod_taken
+				}
+			}
+			set_relation_flag = {
+				who = event_target:current_chrysallis
+				flag = chrysalis_toward_ruiner
+			}
+			set_country_flag = chrysalis_mod_taken
+		}
+
+		# setting flags
+		set_country_flag = chrysalis_country
+
+		# setting graphical culture
+		set_graphical_culture = drone
+
+		# baseline resource stockpile
+		add_energy = 5000
+		add_minerals = 3000
+		add_influence = 500
+
+		# flip capital planet and add at least 5 Machine pops
+		from = {
+			# flip military stations
+			set_owner = root
+			set_controller = root
+			set_capital = yes
+
+			solar_system = {
+				if = {
+					limit = {
+						exists = starbase
+					}
+					starbase = { set_owner = root }
+				}
+					else = {
+						create_starbase = {
+							size = starbase_starport
+							module = shipyard
+							owner = root
+						}
+					}
+				
+			}
+
+			while = {
+				limit = { free_pop_tiles > 0 }
+				best_tile_for_pop = {
+					create_pop = {
+						species = root
+					}
+				}
+			}
+			
+			if = {
+				limit = {
+					count_owned_pops = {
+						count < 5
+						limit = { is_exact_same_species = root }
+					}
+				}
+				while = {
+					limit = {
+						count_owned_pops = {
+							count < 5
+							limit = { is_exact_same_species = root }
+						}
+					}
+					random_owned_pop = {
+						limit = { NOT = { is_exact_same_species = root } }
+						tile = {
+							prev = { kill_pop = yes }
+							create_pop = {
+								species = root
+							}
+						}
+					}
+				}
+			}
+
+			# create armies
+			while = {
+				count = 3
+				create_army = {
+					owner = root
+					type = machine_assault_1
+				}
+			}
+		}
+		# create fleets
+		create_fleet = {
+			set_owner = root
+			create_ship = {
+				name = "chrysalis_mod_vengeance"
+				random_existing_design = titan
+			}
+			set_fleet_stance = passive
+			set_location = root.capital_scope
+		}
+
+		#science
+		create_fleet = {
+			effect = {
+				set_owner = root
+
+				create_ship = {
+					name = random
+					random_existing_design = science
+				}
+
+				set_fleet_stance = evasive				
+				set_location = root.capital_scope
+				
+				owner = {
+					create_leader = {
+						type = scientist
+						sub_type = survey
+						name = random
+						species = owner_main_species
+					}
+				}
+				set_leader = last_created_leader
+			}			
+		}
+			
+		#constructor
+		create_fleet = {
+			effect = {
+				set_owner = root
+				
+				create_ship = {
+					name = random
+					random_existing_design = constructor
+				}
+				
+				set_fleet_stance = evasive
+				set_location = root.capital_scope
+			}
+		}
+	}
+}
+
+country_event = {
+	id = chrysalis_mod.4
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		if = {
+			limit = {
+				has_country_flag = chrysalis_country
+			}
+			create_species = {
+				name = "NAME_chrysalis_mod_new_terran"
+				class = "ROBOT"
+				portrait = "sd_hum_robot"
+				traits = {
+					trait = "trait_robotic_3"
+					trait = "trait_mechanical"
+					trait = "trait_robot_learning_algorithms"
+					trait = "trait_robot_enhanced_memory"
+				}
+			}
+			create_country = {
+				name = "NAME_chrysalis_mod_new_terran_collective"
+				type = default
+				species = last_created_species
+				ignore_initial_colony_error = yes
+				day_zero_contact = no
+				ethos = { 
+					ethic = ethic_fanatic_materialist
+					ethic = ethic_egalitarian
+				}
+				authority = auth_democratic
+				civics = {
+					civic = civic_mod_chrysallis_sentinel
+					civic = civic_technocracy
+				}
+				flag = random
+				effect = {							
+					species = { 
+						apply_robotic_pop_growth_behavior = yes
+					}
+					save_event_target_as = current_chrysallis
+					country_event = { 
+						id = chrysalis_mod.5
+					} # setup happens here now
+				}
+			}
+		}	
+	}
+}
+
+
+country_event = {
+	id = chrysalis_mod.5
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		save_event_target_as = current_chrysallis
+		from.owner = { save_event_target_as = chrysalis_mod_old }
+
+		# setting flags
+		set_country_flag = chrysalis_country_new
+		every_country = {
+			limit = { has_communications = event_target:chrysalis_mod_old}
+			establish_communications_no_message = root
+			establish_contact = { who = root location = from }
+		}
+		every_country = {
+			limit = {
+				has_communications = event_target:chrysalis_mod_old
+				is_ai = false
+			}
+			country_event = { 
+				id = chrysalis_mod.2006
+			}
+		}
+		
+		# setting graphical culture
+		set_graphical_culture = event_target:chrysalis_mod_old
+
+		# baseline resource stockpile: set to old values
+		add_energy = 5000
+		add_minerals = 3000
+		add_influence = 500
+
+		event_target:chrysalis_mod_old = {
+			capital_scope = {
+				save_event_target_as = chrysalis_mod_old_capital
+			}
+			every_owned_planet = {
+				# flip military stations
+				set_owner = root
+				set_controller = root
+
+				solar_system = {
+					if = {
+						limit = {
+							exists = starbase
+							NOT = { owner = { root }}
+						}
+						starbase = { set_owner = root }
+					}					
+				}
+
+				every_owned_pop = {
+					if = {
+						limit = {
+							has_trait = "trait_machine_unit"
+						}
+						random_list = {
+							50 = {
+								modify_pop = {
+									remove_trait = "trait_machine_unit"
+									add_trait = "trait_robotic_3"
+								}
+							}
+							50 = {
+								kill_pop = true
+								prev = {
+									best_tile_for_pop = {
+										create_pop = {
+											species = root
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			every_owned_army = {
+				set_owner = root
+			}
+
+			every_owned_fleet = {
+				set_owner = root
+				set_controller = root
+			}		
+		}
+		event_target:chrysalis_mod_old_capital = {
+			set_capital = yes
+		}
+
+	}
+}
+
+
+		

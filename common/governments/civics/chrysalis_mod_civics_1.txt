@@ -1,0 +1,37 @@
+civic_chrysalis_mod_sentinel = {
+	icon = "gfx/interface/icons/governments/civics/civic_chrysalis_mod_sentinel.dds"
+	modification = no
+	playable = { no }
+	potential = { no
+				}
+	pickable_at_start = no
+	possible = {
+		has_country_flag = chrysalis_mod_chrysalis
+	}
+	random_weight = {
+		base = 0 
+	}
+
+	#description = civic_tooltip_chrysalis_mod_sentinel_effects
+	tile_resource_energy_mult = 0.10
+	country_naval_cap_mult = 0.10
+}
+
+civic_chrysalis_mod_polymental = {
+	icon = "gfx/interface/icons/governments/civics/civic_chrysalis_mod_polymental.dds"
+	modification = no
+	playable = { no }
+	potential = { no
+				}
+	pickable_at_start = no
+	possible = {
+		has_country_flag = chrysalis_mod_chrysalis
+	}
+	random_weight = {
+		base = 0 
+	}
+
+	#description = civic_tooltip_chrysalis_mod_polymental_effects
+	country_resource_unity_mult = 0.10
+	country_engineering_tech_research_speed = 0.10
+}

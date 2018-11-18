@@ -1,0 +1,32 @@
+namespace = chrysalis_mod
+
+#target destroyed
+#This = destroyed country
+#From = optional, destroyer (country)
+country_event = {
+	id = chrysalis_mod.3001
+	hide_window = yes
+    is_triggered_only = yes
+    trigger = {
+        has_country_flag = chrysalis_mod_ruiner
+        exists = {
+            any_country = {
+                has_country_flag = chrysalis_country
+            }
+        }
+    }
+    immediate = {
+        any_country = {
+            limit = {
+                has_relation_flag = {#maybe flag shouldnt be this
+                    who = this
+                    flag = chrysalis_toward_ruiner
+                }
+            }
+            country_event = {
+                id = chrysalis_mod.4
+                days = 180
+            }
+        }
+    }
+}

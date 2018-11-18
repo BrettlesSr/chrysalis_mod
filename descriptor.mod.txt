@@ -1,0 +1,6 @@
+name="The Survivor - Story Mod"
+path="mod/chrysalis_mod"
+tags={
+}
+picture="chrysalis_mod_image.jpg"
+supported_version="2.1.*"

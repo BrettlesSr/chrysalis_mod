@@ -1,0 +1,473 @@
+namespace = chrysalis_mod
+
+# Incoming Transmission
+# Have you seen these ships?
+country_event = {
+	id = chyrsalis_mod.2002
+	title = chyrsalis_mod.2002.name
+	desc = chyrsalis_mod.2002.desc
+	
+	is_triggered_only = yes
+	diplomatic = yes
+	#custom_gui = "enclave_trader_window"
+	force_open = yes
+
+	picture_event_data = {
+		portrait = hum_robot_red
+		room = machine_room
+	}
+	
+	trigger = {
+		from = {
+			has_country_flag = chrysalis_country
+		}
+		NOT = { has_country_flag = chysalis_permahostile }
+		NOT = { has_country_flag = chrysalis_diplomacy_engaged }
+	}
+
+	immediate = {
+		set_country_flag = chrysalis_diplomacy_engaged
+		FROM = { save_event_target_as = chrysalis_country }
+	}
+
+	after = {
+		hidden_effect = {
+			remove_country_flag = chrysalis_diplomacy_engaged
+		}
+	}
+
+	option = {
+		name = SCUM
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			has_valid_civic = civic_fanatic_purifiers
+		}
+		hidden_effect = {
+			remove_country_flag = chrysalis_diplomacy_engaged
+		}
+	}
+	
+	option = {
+		name = TASTY
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			has_valid_civic = civic_hive_devouring_swarm
+		}
+		hidden_effect = {
+			remove_country_flag = chrysalis_diplomacy_engaged
+		}
+	}
+
+	option = {
+		name = chrysalis_mod.2002.a
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			has_valid_civic = civic_machine_terminator
+		}
+		response_text = chrysalis_mod.2002.a.desc
+		default_hide_option = yes
+		hidden_effect = {
+			set_country_flag = chrysalis_permahostile
+			remove_country_flag = chrysalis_diplomacy_engaged
+		}
+	}
+
+	option = { # Why do you want to know?
+		name = chrysalis_mod.2002.b
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			NOR = {
+				has_valid_civic = civic_fanatic_purifiers
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_terminator
+			}
+		}
+		hidden_effect = {
+			set_country_flag = chrysalis_asked_why
+			set_country_flag = chrysalis_enable_conversion
+		}
+		is_dialog_only = true
+		response_text = chrysalis_mod.2002.b.desc
+	}
+
+	option = { #What are you?
+		name = chrysalis_mod.2002.c
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			NOR = {
+				has_valid_civic = civic_fanatic_purifiers
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_terminator
+			}
+		}
+		hidden_effect = {
+			set_country_flag = chrysalis_asked_what
+			set_country_flag = chrysalis_enable_conversion
+		}
+		is_dialog_only = true
+		response_text = chrysalis_mod.2002.c.desc
+	}
+
+	option = { # Ships locals
+		name = chrysalis_mod.2002.d
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			NOR = {
+				has_valid_civic = civic_fanatic_purifiers
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_terminator
+			}
+			#has met them
+			any_country = {
+				limit = {
+					has_country_flag = chrysalis_mod_ruiner
+					NOT = {
+						is_country_type = fallen_empire
+					}
+				}				
+			}
+		}
+		hidden_effect = {
+			set_country_flag = chrysalis_enable_conversion
+		}
+		response_text = chrysalis_mod.2002.d.desc
+	}
+
+	option = { # Ships fallen
+		name = chrysalis_mod.2002.e
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			NOR = {
+				has_valid_civic = civic_fanatic_purifiers
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_terminator
+			}
+			#has met them
+			any_country = {
+				limit = {
+					has_country_flag = chrysalis_mod_ruiner
+					is_country_type = fallen_empire
+				}				
+			}
+		}
+		hidden_effect = {
+			set_country_flag = chrysalis_enable_conversion
+		}
+		response_text = chrysalis_mod.2002.e.desc
+	}
+
+	option = { # Ships precursor
+		name = chrysalis_mod.2002.f
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			NOR = {
+				has_valid_civic = civic_fanatic_purifiers
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_terminator
+				any_country = {
+					limit = {
+						has_country_flag = chrysalis_mod_ruiner
+					}				
+				}
+			}
+			#has met them			
+		}
+		hidden_effect = {
+			set_country_flag = chrysalis_enable_conversion
+		}
+		response_text = chrysalis_mod.2002.f.desc
+	}
+
+	option = { #Conversion - Fanatic Militarist
+		name = chrysalis_mod.2002.g
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			NOR = {
+				has_valid_civic = civic_fanatic_purifiers
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_terminator
+			}
+			has_ethic = fanatic_militarist
+			has_country_flag = chrysalis_asked_why
+		}		
+		
+		default_hide_option = yes
+		hidden_effect = {
+			set_country_flag = chrysalis_permahostile
+			remove_country_flag = chrysalis_diplomacy_engaged
+		}		
+	}
+
+	option = { #Conversion - Fanatic Spiritulist
+		name = chrysalis_mod.2002.h
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			NOR = {
+				has_valid_civic = civic_fanatic_purifiers
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_terminator
+			}
+			has_ethic = fanatic_spiritualist
+			has_country_flag = chrysalis_asked_what
+		}		
+		
+		default_hide_option = yes
+		hidden_effect = {
+			set_country_flag = chrysalis_permahostile
+			remove_country_flag = chrysalis_diplomacy_engaged
+		}
+	}
+
+	option = { #Conversion - Fanatic Xenophobe
+		name = chrysalis_mod.2002.i
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			NOR = {
+				has_valid_civic = civic_fanatic_purifiers
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_terminator
+			}
+			has_ethic = fanatic_xenophobe
+			has_country_flag = chrysalis_asked_why
+		}		
+		
+		default_hide_option = yes
+		hidden_effect = {
+			set_country_flag = chrysalis_permahostile
+			remove_country_flag = chrysalis_diplomacy_engaged
+		}
+	}
+
+	option = { #Conversion - Fanatic Xenophile
+		name = chrysalis_mod.2002.j
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			NOR = {
+				has_valid_civic = civic_fanatic_purifiers
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_terminator
+			}
+			has_ethic = fanatic_xenophobe
+			has_country_flag = chrysalis_enable_conversion
+		}			
+		hidden_effect = {
+			country_event = { id = chrysalis_mod.4 days = 360 random = 10 }
+		}
+		response_text = chrysalis_mod.2002.j.desc
+	}
+
+	option = { #Conversion - Fanatic Pacifist
+		name = chrysalis_mod.2002.j
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			NOR = {
+				has_valid_civic = civic_fanatic_purifiers
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_terminator
+			}
+			has_ethic = fanatic_pacifist
+			has_country_flag = chrysalis_enable_conversion
+		}
+		hidden_effect = {
+			country_event = { id = chrysalis_mod.4 days = 360 random = 10 }
+		}			
+		response_text = chrysalis_mod.2002.j.desc
+	}
+
+	option = {
+		name = chrysalis_mod.2002.z
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			NOR = {
+				has_valid_civic = civic_fanatic_purifiers
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_terminator
+			}
+		}
+		default_hide_option = yes
+		hidden_effect = {
+			remove_country_flag = chrysalis_diplomacy_engaged
+		}
+	}
+}
+
+# Incoming Transmission
+country_event = {
+	id = chrysalis_mod.2003
+	title = "TRANSMISSION"
+	desc = { 
+		text = chrysalis_mod.2003.desc
+	}
+	
+	diplomatic = yes
+	
+	picture_event_data = {
+		portrait = "hum_robot_red"
+		room = "machine_room"
+	}
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = chrysalis_mod.2003.a
+		response_text = chrysalis_mod.2003.a.response
+		hidden_effect = {
+			country_event = { id = chrysalis_mod.2002 }
+		}
+	}
+}
+
+country_event = {
+	id = chrysalis_mod.2005
+	title = chrysalis_mod.2005.name
+	desc = chrysalis_mod.2005.desc
+	
+	is_triggered_only = yes
+	diplomatic = yes
+	#custom_gui = "enclave_trader_window"
+	force_open = yes
+
+	picture_event_data = {
+		portrait = "sd_hum_robot"
+		room = "machine_room"
+	}
+	
+	trigger = {
+		from = {
+			has_country_flag = chrysalis_country
+		}
+		NOT = { has_country_flag = chysalis_permahostile }
+		NOT = { has_country_flag = chrysalis_diplomacy_engaged }
+	}
+
+	immediate = {
+		set_country_flag = chrysalis_diplomacy_engaged
+		FROM = { save_event_target_as = chrysalis_country }
+	}
+
+	after = {
+		hidden_effect = {
+			remove_country_flag = chrysalis_diplomacy_engaged
+		}
+	}
+
+	option = {
+		name = SCUM
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			has_valid_civic = civic_fanatic_purifiers
+		}
+		hidden_effect = {
+			remove_country_flag = chrysalis_diplomacy_engaged
+		}
+	}
+	
+	option = {
+		name = TASTY
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			has_valid_civic = civic_hive_devouring_swarm
+		}
+		hidden_effect = {
+			remove_country_flag = chrysalis_diplomacy_engaged
+		}
+	}
+
+	option = {
+		name = chrysalis_mod.2005.a
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			has_valid_civic = civic_machine_terminator
+		}
+		response_text = chrysalis_mod.2005.a.desc
+		default_hide_option = yes
+		hidden_effect = {
+			set_country_flag = chrysalis_permahostile
+			remove_country_flag = chrysalis_diplomacy_engaged
+		}
+	}
+
+	option = { #Whats happened to the survivor?
+		name = chrysalis_mod.2005.b
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			NOR = {
+				has_valid_civic = civic_fanatic_purifiers
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_terminator
+			}
+		}
+		is_dialog_only = true
+		response_text = chrysalis_mod.2005.b.desc
+	}
+
+	option = { #Are you the new main terminal?
+		name = chrysalis_mod.2005.c
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			NOR = {
+				has_valid_civic = civic_fanatic_purifiers
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_terminator
+			}
+		}
+		is_dialog_only = true
+		response_text = chrysalis_mod.2005.c.desc
+	}
+
+	option = { #Vengence
+		name = chrysalis_mod.2005.d
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			NOR = {
+				has_valid_civic = civic_fanatic_purifiers
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_terminator
+			}
+		}
+		is_dialog_only = true
+		response_text = chrysalis_mod.2005.d.desc
+	}
+
+	option = {
+		name = chrysalis_mod.2005.z
+		#custom_gui = "enclave_trader_option"
+		trigger = {
+			NOR = {
+				has_valid_civic = civic_fanatic_purifiers
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_terminator
+			}
+		}
+		default_hide_option = yes
+		hidden_effect = {
+			remove_country_flag = chrysalis_diplomacy_engaged
+		}
+	}
+}
+
+# Incoming Transmission
+country_event = {
+	id = chrysalis_mod.2006
+	title = "TRANSMISSION"
+	desc = { 
+		text = chrysalis_mod.2006.desc
+	}
+	
+	diplomatic = yes
+	
+	picture_event_data = {
+		portrait = "sd_hum_robot"
+		room = "machine_room"
+	}
+	
+	is_triggered_only = yes
+	
+	option = {
+		name = chrysalis_mod.2006.a
+		response_text = chrysalis_mod.2006.a.response
+		hidden_effect = {
+			country_event = { id = chrysalis_mod.2005 }
+		}
+	}
+}
