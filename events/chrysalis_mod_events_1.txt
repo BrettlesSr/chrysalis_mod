@@ -14,7 +14,7 @@ planet_event = {
 				}
 			}
 			set_planet_flag = chrysalis_mod_chrysalis_capital
-			planet_event = { id = chrysalis_mod.2 days =1000 } #to be changed
+			planet_event = { id = chrysalis_mod.2 days = 25000 random = 5000}
 		}
 		random_list = {
 			40 = {
@@ -46,18 +46,15 @@ planet_event = {
 					limit = { 
 						exists = { 
 							any_country = { 
-								limit = {
-									
+								limit = {									
 										is_ai = yes
-										NOT = { is_country_type = fallen_empire }
-									
+										NOT = { is_country_type = fallen_empire }									
 								}
 							}
 						}
 					}
 					random_country = {
-						limit = {
-							
+						limit = {							
 								is_ai = yes
 								NOT = { is_country_type = fallen_empire }
 							
@@ -91,12 +88,11 @@ planet_event = {
 			create_species = {
 			name = "NAME_chrysalis_mod_drone_pop"
 			class = "MACHINE"
-			portrait = "hum_robot_red" #change
+			portrait = "sd_avi_robot"
 			traits = {
 				trait = "trait_machine_unit"
 				trait = "trait_robot_efficient_processors"
 				trait = "trait_robot_double_jointed"
-				#maybe set these to random later
 			}
 			}
 			create_country = {
@@ -118,9 +114,7 @@ planet_event = {
 							country_event = { id = chrysalis_mod.3 } # setup happens here now
 						}
 					}
-				}
-			#populate
-			#flip system			
+				}		
 	}
 }
 
@@ -422,6 +416,34 @@ country_event = {
 			set_capital = yes
 		}
 
+	}
+}
+
+#gamestart event
+country_event = {
+	id = chrysalis_mod.6
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		random_planet = {
+			limit = {
+				is_planet_class = pc_nuked
+				is_capital = no
+				OR = {
+					AND = {
+						exists = owner
+						owner = {
+							num_owned_planets > 3
+						}
+					}
+					NOT = {
+						exists = owner
+					}
+				}
+				planet_size > 14
+			}
+		}
 	}
 }
 
