@@ -21,12 +21,8 @@ planet_event = {
 				#fallen empire
 				if = { 
 					limit = { 
-						exists = { 
-							any_country = { 
-								limit = {
-									is_country_type = fallen_empire
-								}
-							}
+						any_country = { 
+							is_country_type = fallen_empire
 						}
 					}
 					random_country = {
@@ -44,24 +40,20 @@ planet_event = {
 				#nearby empire
 				if = { 
 					limit = { 
-						exists = { 
-							any_country = { 
-								limit = {									
-										is_ai = yes
-										NOT = { is_country_type = fallen_empire }									
-								}
-							}
+						any_country = { 
+							is_ai = yes
+							NOT = { is_country_type = fallen_empire }									
 						}
+					}
+				
 					}
 					random_country = {
 						limit = {							
 								is_ai = yes
-								NOT = { is_country_type = fallen_empire }
-							
+								NOT = { is_country_type = fallen_empire }							
 						}
 						set_country_flag = chrysalis_mod_ruiner
 					}
-				}
 					else = {
 						planet_event = { id = chrysalis_mod.1 }
 					}
@@ -104,12 +96,11 @@ planet_event = {
 						ethos = { ethic = ethic_gestalt_consciousness }
 						authority = auth_machine_intelligence
 						civics = {
-							civic = civic_mod_chrysallis_sentinel
-							civic = civic_mod_chrysallis_revenge
+							civic = civic_chrysalis_mod_sentinel
+							civic = civic_chrysalis_mod_polymental
 						}
 						flag = random
-						effect = {							
-							species = { apply_robotic_pop_growth_behavior = yes }
+						effect = {
 							save_event_target_as = current_chrysallis
 							country_event = { id = chrysalis_mod.3 } # setup happens here now
 						}
@@ -125,7 +116,7 @@ country_event = {
 
 	immediate = {
 		save_event_target_as = current_chrysallis
-		any_country = {
+		random_country = {
 			limit = {
 				has_country_flag = chrysalis_mod_ruiner
 				NOT = {
@@ -134,7 +125,7 @@ country_event = {
 			}
 			set_relation_flag = {
 				who = event_target:current_chrysallis
-				flag = chrysalis_toward_ruiner
+				flag = relation_flag_chrysalis_toward_ruiner
 			}
 			set_country_flag = chrysalis_mod_taken
 		}
@@ -146,9 +137,9 @@ country_event = {
 		set_graphical_culture = drone
 
 		# baseline resource stockpile
-		add_energy = 5000
-		add_minerals = 3000
-		add_influence = 500
+		add_resource = { energy = 5000 }
+		add_resource = { minerals = 3000 }
+		add_resource = { influence = 500 }
 
 		# flip capital planet and add at least 5 Machine pops
 		from = {
