@@ -83,7 +83,7 @@ country_event = {
 			set_country_flag = chrysalis_asked_why
 			set_country_flag = chrysalis_enable_conversion
 		}
-		is_dialog_only = true
+		is_dialog_only = yes
 		response_text = chrysalis_mod.2002.b.desc
 	}
 
@@ -100,7 +100,7 @@ country_event = {
 			set_country_flag = chrysalis_asked_what
 			set_country_flag = chrysalis_enable_conversion
 		}
-		is_dialog_only = true
+		is_dialog_only = yes
 		response_text = chrysalis_mod.2002.c.desc
 	}
 
@@ -114,12 +114,10 @@ country_event = {
 			}
 			#has met them
 			any_country = {
-				limit = {
 					has_country_flag = chrysalis_mod_ruiner
 					NOT = {
 						is_country_type = fallen_empire
-					}
-				}				
+					}		
 			}
 		}
 		hidden_effect = {
@@ -138,12 +136,10 @@ country_event = {
 			}
 			#has met them
 			any_country = {
-				limit = {
 					has_country_flag = chrysalis_mod_ruiner
 					is_country_type = fallen_empire
-				}				
+				}		
 			}
-		}
 		hidden_effect = {
 			set_country_flag = chrysalis_enable_conversion
 		}
@@ -158,9 +154,7 @@ country_event = {
 				has_valid_civic = civic_hive_devouring_swarm
 				has_valid_civic = civic_machine_terminator
 				any_country = {
-					limit = {
 						has_country_flag = chrysalis_mod_ruiner
-					}				
 				}
 			}
 			#has met them			
@@ -179,7 +173,7 @@ country_event = {
 				has_valid_civic = civic_hive_devouring_swarm
 				has_valid_civic = civic_machine_terminator
 			}
-			has_ethic = fanatic_militarist
+			has_ethic = ethic_fanatic_militarist
 			has_country_flag = chrysalis_asked_why
 		}		
 		
@@ -198,7 +192,7 @@ country_event = {
 				has_valid_civic = civic_hive_devouring_swarm
 				has_valid_civic = civic_machine_terminator
 			}
-			has_ethic = fanatic_spiritualist
+			has_ethic = ethic_fanatic_spiritualist
 			has_country_flag = chrysalis_asked_what
 		}		
 		
@@ -217,7 +211,7 @@ country_event = {
 				has_valid_civic = civic_hive_devouring_swarm
 				has_valid_civic = civic_machine_terminator
 			}
-			has_ethic = fanatic_xenophobe
+			has_ethic = ethic_fanatic_xenophobe
 			has_country_flag = chrysalis_asked_why
 		}		
 		
@@ -236,7 +230,7 @@ country_event = {
 				has_valid_civic = civic_hive_devouring_swarm
 				has_valid_civic = civic_machine_terminator
 			}
-			has_ethic = fanatic_xenophobe
+			has_ethic = ethic_fanatic_xenophobe
 			has_country_flag = chrysalis_enable_conversion
 		}			
 		hidden_effect = {
@@ -253,7 +247,7 @@ country_event = {
 				has_valid_civic = civic_hive_devouring_swarm
 				has_valid_civic = civic_machine_terminator
 			}
-			has_ethic = fanatic_pacifist
+			has_ethic = ethic_fanatic_pacifist
 			has_country_flag = chrysalis_enable_conversion
 		}
 		hidden_effect = {
@@ -382,7 +376,7 @@ country_event = {
 				has_valid_civic = civic_machine_terminator
 			}
 		}
-		is_dialog_only = true
+		is_dialog_only = yes
 		response_text = chrysalis_mod.2005.b.desc
 	}
 
@@ -396,7 +390,7 @@ country_event = {
 				has_valid_civic = civic_machine_terminator
 			}
 		}
-		is_dialog_only = true
+		is_dialog_only = yes
 		response_text = chrysalis_mod.2005.c.desc
 	}
 
@@ -410,7 +404,7 @@ country_event = {
 				has_valid_civic = civic_machine_terminator
 			}
 		}
-		is_dialog_only = true
+		is_dialog_only = yes
 		response_text = chrysalis_mod.2005.d.desc
 	}
 
