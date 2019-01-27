@@ -5,3 +5,9 @@ on_country_destroyed = {
 		chrysalis_mod.3001
 	}
 }
+
+on_mid_game_pulse = {
+	events = {
+		chrysalis_mod.6
+	}
+}

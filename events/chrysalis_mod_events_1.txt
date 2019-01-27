@@ -14,7 +14,7 @@ planet_event = {
 				}
 			}
 			set_planet_flag = chrysalis_mod_chrysalis_capital
-			planet_event = { id = chrysalis_mod.2 days = 25000 random = 5000}
+			planet_event = { id = chrysalis_mod.2 days = 1500 random = 1000}
 		}
 		random_list = {
 			40 = {
@@ -194,6 +194,26 @@ country_event = {
 				}
 				set_fleet_stance = passive
 				set_location = root.capital_scope
+			}
+		}
+
+
+		random_neighbor_country = {
+			limit = {
+				NOT = { is_country_type = fallen_empire }
+			}
+			save_event_target_as = chrysalis_pillage_tech
+		}
+		copy_techs_from = {
+			target = event_target:chrysalis_pillage_tech
+			except = {
+				tech_subdermal_stimulation
+				tech_neural_implants
+				tech_selected_lineages
+				tech_capacity_boosters
+				tech_akx_worm_1
+				tech_akx_worm_2
+				tech_akx_worm_3
 			}
 		}
 
@@ -380,7 +400,7 @@ country_event = {
 }
 
 #gamestart event
-country_event = {
+event = {
 	id = chrysalis_mod.6
 	hide_window = yes
 	is_triggered_only = yes
@@ -395,6 +415,9 @@ country_event = {
 						exists = owner
 						owner = {
 							num_owned_planets > 3
+							is_ai = yes
+							NOT = { is_country_type = fallen_empire 
+							}
 						}
 					}
 					NOT = {
@@ -402,6 +425,9 @@ country_event = {
 					}
 				}
 				planet_size > 14
+			}
+			planet_event = {
+				id = chrysalis_mod.1
 			}
 		}
 	}

@@ -1,0 +1,28 @@
+triggered_chrysalis_opinion_of_ruiners = {
+	trigger = {
+		has_country_flag = chrysalis_country
+		FROM = {
+			reverse_has_relation_flag = {
+                who = root
+                flag = relation_flag_chrysalis_toward_ruiner
+            }
+		}
+	}
+
+	opinion = {
+		base = -1000
+	}
+}
+
+triggered_chrysalis_opinion_of_primitive_attacker = {
+    trigger = {
+        has_country_flag = chrysalis_country
+        FROM ={
+            NOT = { has_policy_flag = interference_passive }
+        }
+    }
+
+    opinion = {
+        base = -25
+    }
+}

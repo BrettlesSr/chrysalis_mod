@@ -112,9 +112,9 @@ country_event = {
 				has_valid_civic = civic_hive_devouring_swarm
 				has_valid_civic = civic_machine_terminator
 			}
-			#has met them
 			any_country = {
 					has_country_flag = chrysalis_mod_ruiner
+					has_communications = root
 					NOT = {
 						is_country_type = fallen_empire
 					}		
@@ -134,9 +134,9 @@ country_event = {
 				has_valid_civic = civic_hive_devouring_swarm
 				has_valid_civic = civic_machine_terminator
 			}
-			#has met them
 			any_country = {
 					has_country_flag = chrysalis_mod_ruiner
+					has_communications = root
 					is_country_type = fallen_empire
 				}		
 			}
@@ -157,7 +157,11 @@ country_event = {
 						has_country_flag = chrysalis_mod_ruiner
 				}
 			}
-			#has met them			
+			event_target:chrysalis_country = {
+				any_planet = {
+					has_planet_flag = chrysalis_mod_ruiner_precursor
+				}				
+			}		
 		}
 		hidden_effect = {
 			set_country_flag = chrysalis_enable_conversion
@@ -254,6 +258,28 @@ country_event = {
 			country_event = { id = chrysalis_mod.4 days = 360 random = 10 }
 		}			
 		response_text = chrysalis_mod.2002.j.desc
+	}
+
+	option = { #Offer vassal
+		name = chrysalis_mod.2002.k
+		trigger = {
+			NOR = {
+				has_valid_civic = civic_fanatic_purifiers
+				has_valid_civic = civic_hive_devouring_swarm
+				has_valid_civic = civic_machine_terminator
+				has_ethic = ethic_fanatic_pacifist
+				has_ethic = ethic_fanatic_spiritualist
+			}
+			is_ai = no
+			has_country_flag = chrysalis_asked_why
+		}
+		hidden_effect = {
+			set_subject_of = {
+				who = from
+				subject_type = vassal
+			}
+		}			
+		response_text = chrysalis_mod.2002.k.desc
 	}
 
 	option = {
