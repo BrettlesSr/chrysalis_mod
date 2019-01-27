@@ -161,45 +161,19 @@ country_event = {
 							module = shipyard
 							owner = root
 						}
-					}
-				
+					}				
 			}
 
+			generate_start_deposits_and_blockers =  yes
+			generate_start_buildings_and_districts = yes
+
 			while = {
-				limit = { free_pop_tiles > 0 }
-				best_tile_for_pop = {
+				limit = { free_housing  > 0 }
 					create_pop = {
 						species = root
 					}
-				}
 			}
 			
-			if = {
-				limit = {
-					count_owned_pops = {
-						count < 5
-						limit = { is_exact_same_species = root }
-					}
-				}
-				while = {
-					limit = {
-						count_owned_pops = {
-							count < 5
-							limit = { is_exact_same_species = root }
-						}
-					}
-					random_owned_pop = {
-						limit = { NOT = { is_exact_same_species = root } }
-						tile = {
-							prev = { kill_pop = yes }
-							create_pop = {
-								species = root
-							}
-						}
-					}
-				}
-			}
-
 			# create armies
 			while = {
 				count = 3
@@ -209,15 +183,18 @@ country_event = {
 				}
 			}
 		}
+
 		# create fleets
 		create_fleet = {
-			set_owner = root
-			create_ship = {
-				name = "chrysalis_mod_vengeance"
-				random_existing_design = titan
+			effect = {
+				set_owner = root
+				create_ship = {
+					name = "chrysalis_mod_vengeance"
+					random_existing_design = titan
+				}
+				set_fleet_stance = passive
+				set_location = root.capital_scope
 			}
-			set_fleet_stance = passive
-			set_location = root.capital_scope
 		}
 
 		#science
@@ -235,7 +212,7 @@ country_event = {
 				
 				owner = {
 					create_leader = {
-						type = scientist
+						class = scientist
 						sub_type = survey
 						name = random
 						species = owner_main_species
@@ -277,7 +254,6 @@ country_event = {
 				class = "ROBOT"
 				portrait = "sd_hum_robot"
 				traits = {
-					trait = "trait_robotic_3"
 					trait = "trait_mechanical"
 					trait = "trait_robot_learning_algorithms"
 					trait = "trait_robot_enhanced_memory"
@@ -295,14 +271,11 @@ country_event = {
 				}
 				authority = auth_democratic
 				civics = {
-					civic = civic_mod_chrysallis_sentinel
+					civic = civic_chrysalis_mod_sentinel
 					civic = civic_technocracy
 				}
 				flag = random
-				effect = {							
-					species = { 
-						apply_robotic_pop_growth_behavior = yes
-					}
+				effect = {
 					save_event_target_as = current_chrysallis
 					country_event = { 
 						id = chrysalis_mod.5
@@ -333,7 +306,7 @@ country_event = {
 		every_country = {
 			limit = {
 				has_communications = event_target:chrysalis_mod_old
-				is_ai = false
+				is_ai = no
 			}
 			country_event = { 
 				id = chrysalis_mod.2006
@@ -344,14 +317,15 @@ country_event = {
 		set_graphical_culture = event_target:chrysalis_mod_old
 
 		# baseline resource stockpile: set to old values
-		add_energy = 5000
-		add_minerals = 3000
-		add_influence = 500
+		add_resource = { energy = 5000 }
+		add_resource = { minerals = 3000 }
+		add_resource = { influence = 500 }
 
 		event_target:chrysalis_mod_old = {
 			capital_scope = {
 				save_event_target_as = chrysalis_mod_old_capital
 			}
+
 			every_owned_planet = {
 				# flip military stations
 				set_owner = root
@@ -361,7 +335,6 @@ country_event = {
 					if = {
 						limit = {
 							exists = starbase
-							NOT = { owner = { root }}
 						}
 						starbase = { set_owner = root }
 					}					
@@ -374,19 +347,15 @@ country_event = {
 						}
 						random_list = {
 							50 = {
-								modify_pop = {
 									remove_trait = "trait_machine_unit"
-									add_trait = "trait_robotic_3"
-								}
+									add_trait = "trait_robotic_3"								
 							}
 							50 = {
-								kill_pop = true
+								kill_pop = yes
 								prev = {
-									best_tile_for_pop = {
 										create_pop = {
 											species = root
 										}
-									}
 								}
 							}
 						}

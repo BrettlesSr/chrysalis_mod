@@ -28,3 +28,15 @@ country_event = {
         }
     }
 }
+
+country_event = {
+    id = chrysalis_mod.3002
+    title = chrysalis_mod.3002.name
+    desc = chrysalis_mod.3002.desc
+    picture = GFX_evt_city_ruins
+    is_triggered_only = yes
+
+    option = {
+		name = "chrysalis_mod.3002.a.name"		
+	}
+}
