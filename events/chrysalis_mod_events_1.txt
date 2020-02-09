@@ -32,9 +32,9 @@ planet_event = {
 						set_country_flag = chrysalis_mod_ruiner
 					}
 				}
-					else = {
-						planet_event = { id = chrysalis_mod.1 }
-					}
+				else = {
+					planet_event = { id = chrysalis_mod.1 }
+				}
 			}
 			40 = {
 				#nearby empire
@@ -45,8 +45,6 @@ planet_event = {
 							NOT = { is_country_type = fallen_empire }									
 						}
 					}
-				
-					}
 					random_country = {
 						limit = {							
 								is_ai = yes
@@ -54,10 +52,10 @@ planet_event = {
 						}
 						set_country_flag = chrysalis_mod_ruiner
 					}
-					else = {
-						planet_event = { id = chrysalis_mod.1 }
-					}
-				
+				}
+				else = {
+					planet_event = { id = chrysalis_mod.1 }
+				}				
 			}
 			20 = {
 				set_planet_flag = chrysalis_mod_ruiner_precursor
@@ -155,13 +153,13 @@ country_event = {
 					}
 					starbase = { set_owner = root }
 				}
-					else = {
-						create_starbase = {
-							size = starbase_starport
-							module = shipyard
-							owner = root
-						}
-					}				
+				else = {
+					create_starbase = {
+						size = starbase_starport
+						module = shipyard
+						owner = root
+					}
+				}				
 			}
 
 			generate_start_deposits_and_blockers =  yes
@@ -367,8 +365,11 @@ country_event = {
 						}
 						random_list = {
 							50 = {
-									remove_trait = "trait_machine_unit"
-									add_trait = "trait_robotic_3"								
+								modify_species = {
+									species = this
+									remove_trait = trait_machine_unit
+									add_trait = trait_robotic_3									
+								}
 							}
 							50 = {
 								kill_pop = yes
@@ -416,13 +417,10 @@ event = {
 						owner = {
 							num_owned_planets > 3
 							is_ai = yes
-							NOT = { is_country_type = fallen_empire 
-							}
+							NOT = { is_country_type = fallen_empire }
 						}
 					}
-					NOT = {
-						exists = owner
-					}
+					NOT = {	exists = owner	}
 				}
 				planet_size > 14
 			}
@@ -432,6 +430,3 @@ event = {
 		}
 	}
 }
-
-
-		

@@ -1,6 +1,7 @@
 name="The Survivor - Story Mod"
 path="mod/chrysalis_mod"
 tags={
+    "Events"
 }
-picture="chrysalis_mod_image.jpg"
-supported_version="2.2.*"
+picture="thumbnail.jpg"
+supported_version="2.5.*"

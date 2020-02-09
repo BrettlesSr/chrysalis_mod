@@ -1,4 +1,5 @@
 namespace = chrysalis_mod
+#On Action events
 
 #target destroyed
 #This = destroyed country
@@ -37,6 +38,6 @@ country_event = {
     is_triggered_only = yes
 
     option = {
-		name = "chrysalis_mod.3002.a.name"		
+		name = chrysalis_mod.3002.a.name		
 	}
 }

@@ -1,5 +1,6 @@
 civic_chrysalis_mod_sentinel = {
 	modification = no
+	icon = "gfx/interface/icons/governments/civics/civic_chrysalis_sentinel.dds"
 	potential = { authority = { value = auth_machine_intelligence } }
 	pickable_at_start = no
 	random_weight = {
@@ -13,6 +14,7 @@ civic_chrysalis_mod_sentinel = {
 
 civic_chrysalis_mod_polymental = {
 	modification = no
+	icon = "gfx/interface/icons/governments/civics/civic_chrysalis_polymind.dds"
 	potential = { authority = { value = auth_machine_intelligence } }
 	pickable_at_start = no
 	random_weight = {
