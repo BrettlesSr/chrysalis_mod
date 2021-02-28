@@ -13,8 +13,13 @@ planet_event = {
 					has_planet_flag = chrysalis_mod_chrysalis_capital
 				}
 			}
+			log = "Chrysalis mod: Picked a capital planet for the Survivor on [This.GetName]"
 			set_planet_flag = chrysalis_mod_chrysalis_capital
-			planet_event = { id = chrysalis_mod.2 days = 1500 random = 1000}
+			planet_event = {
+				id = chrysalis_mod.2
+				days = 1 # 1500
+				random = 0 # 1000
+			}
 		}
 		random_list = {
 			40 = {
@@ -25,6 +30,7 @@ planet_event = {
 							is_country_type = fallen_empire
 						}
 					}
+					log = "Chrysalis mod: Picked a fallen empire as ruiner."
 					random_country = {
 						limit = {
 							is_country_type = fallen_empire
@@ -45,6 +51,7 @@ planet_event = {
 							NOT = { is_country_type = fallen_empire }									
 						}
 					}
+					log = "Chrysalis mod: Picked a nearby empire as ruiner."
 					random_country = {
 						limit = {							
 								is_ai = yes
@@ -58,6 +65,7 @@ planet_event = {
 				}				
 			}
 			20 = {
+				log = "Chrysalis mod: Picked a precursor as ruiner."
 				set_planet_flag = chrysalis_mod_ruiner_precursor
 			}
 		}
@@ -75,6 +83,7 @@ planet_event = {
 			limit = {
 				has_planet_flag = chrysalis_mod_chrysalis_capital
 			}
+			set_planet_flag = chrysalis_mod_active_chrysalis_capital
 			create_species = {
 			name = "NAME_chrysalis_mod_drone_pop"
 			class = "MACHINE"
@@ -85,6 +94,7 @@ planet_event = {
 				trait = "trait_robot_double_jointed"
 			}
 			}
+			log = "Chrysalis mod: Survivor drone species created."
 			create_country = {
 						name = "NAME_chrysalis_mod_the_survivor"
 						type = default
@@ -100,9 +110,10 @@ planet_event = {
 						flag = random
 						effect = {
 							save_event_target_as = current_chrysallis
+							log = "Chrysalis mod: Survivor drone country created."
 							country_event = { id = chrysalis_mod.3 } # setup happens here now
 						}
-					}
+					}					
 				}		
 	}
 }
@@ -127,6 +138,7 @@ country_event = {
 			}
 			set_country_flag = chrysalis_mod_taken
 		}
+		log = "Chrysalis mod: Survivor relation flags resolved."
 
 		# setting flags
 		set_country_flag = chrysalis_country
@@ -140,11 +152,15 @@ country_event = {
 		add_resource = { influence = 500 }
 
 		# flip capital planet and add at least 5 Machine pops
-		from = {
+		random_planet = {
+			limit = {
+				has_planet_flag = chrysalis_mod_active_chrysalis_capital
+			}
 			# flip military stations
 			set_owner = root
 			set_controller = root
 			set_capital = yes
+			log = "Chrysalis mod: Set [Root.GetName] as owner of [This.GetName]."
 
 			solar_system = {
 				if = {
@@ -152,26 +168,24 @@ country_event = {
 						exists = starbase
 					}
 					starbase = { set_owner = root }
+					log = "Chrysalis mod: Took control of existing starbase in [This.GetName]."
 				}
 				else = {
 					create_starbase = {
 						size = starbase_starport
 						module = shipyard
+						building = crew_quarters
 						owner = root
 					}
+					log = "Chrysalis mod: Made a new starbase in [This.GetName]."
 				}				
 			}
 
 			generate_start_deposits_and_blockers =  yes
 			generate_start_buildings_and_districts = yes
+			generate_start_pops = yes
+			log = "Chrysalis mod: Survivor drones populated."
 
-			while = {
-				limit = { free_housing  > 0 }
-					create_pop = {
-						species = root
-					}
-			}
-			
 			# create armies
 			while = {
 				count = 3
@@ -180,6 +194,9 @@ country_event = {
 					type = machine_assault_1
 				}
 			}
+			log = "Chrysalis mod: Survivor drone armies populated."
+
+			remove_planet_flag = chrysalis_mod_active_chrysalis_capital
 		}
 
 		# create fleets
@@ -194,13 +211,26 @@ country_event = {
 				set_location = root.capital_scope
 			}
 		}
-
+		log = "Chrysalis mod: Survivor drone fleets populated."
 
 		random_neighbor_country = {
 			limit = {
 				NOT = { is_country_type = fallen_empire }
 			}
 			save_event_target_as = chrysalis_pillage_tech
+		}
+		if = {
+			limit = {
+				NOT = {
+					exists = event_target:chrysalis_pillage_tech
+				}
+			}
+			random_country = {
+				limit = {
+					NOT = { is_country_type = fallen_empire }
+				}
+				save_event_target_as = chrysalis_pillage_tech
+			}
 		}
 		copy_techs_from = {
 			target = event_target:chrysalis_pillage_tech
@@ -214,6 +244,7 @@ country_event = {
 				tech_akx_worm_3
 			}
 		}
+		log = "Chrysalis mod: Survivor tech pillaged."
 
 		#science
 		create_fleet = {
@@ -239,6 +270,7 @@ country_event = {
 				set_leader = last_created_leader
 			}			
 		}
+		log = "Chrysalis mod: Science vessels made."
 			
 		#constructor
 		create_fleet = {
@@ -254,6 +286,7 @@ country_event = {
 				set_location = root.capital_scope
 			}
 		}
+		log = "Chrysalis mod: Constructor vessels made."
 	}
 }
 
@@ -409,6 +442,7 @@ event = {
 	is_triggered_only = yes
 
 	immediate = {
+		log = "Chrysalis mod: The mid game initialiser had fired."
 		random_planet = {
 			limit = {
 				is_planet_class = pc_nuked

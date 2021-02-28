@@ -3,5 +3,5 @@ path="mod/chrysalis_mod"
 tags={
     "Events"
 }
-picture="thumbnail.jpg"
+picture="thumbnail.png"
 supported_version="2.8.*"
