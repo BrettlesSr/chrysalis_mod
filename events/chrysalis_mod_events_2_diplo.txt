@@ -1,5 +1,22 @@
 namespace = chrysalis_mod
 
+#redirects event if ai opens communications first
+country_event = {
+	id = chrysalis_mod.2001
+	is_triggered_only = yes
+	hide_window = yes
+	trigger = {
+		has_country_flag = chrysalis_country
+	}
+	immediate = {
+		from = {
+			country_event = {
+				id = chrysalis_mod.2002
+			}
+		}
+	}
+}
+
 # Incoming Transmission
 # Have you seen these ships?
 country_event = {
@@ -22,16 +39,19 @@ country_event = {
 		}
 		NOT = { has_country_flag = chrysalis_permahostile }
 		NOT = { has_country_flag = chrysalis_diplomacy_engaged }
+		is_ai = no
 	}
 
 	immediate = {
-		set_country_flag = chrysalis_diplomacy_engaged
 		FROM = { save_event_target_as = chrysalis_country }
+		set_country_flag = chrysalis_diplomacy_engaged
+		set_country_flag = day_0
 	}
 
 	after = {
 		hidden_effect = {
 			remove_country_flag = chrysalis_diplomacy_engaged
+			remove_country_flag = day_0
 		}
 	}
 
@@ -123,6 +143,7 @@ country_event = {
 		hidden_effect = {
 			set_country_flag = chrysalis_enable_conversion
 		}
+		is_dialog_only = yes
 		response_text = chrysalis_mod.2002.d.desc
 	}
 
@@ -143,6 +164,7 @@ country_event = {
 		hidden_effect = {
 			set_country_flag = chrysalis_enable_conversion
 		}
+		is_dialog_only = yes
 		response_text = chrysalis_mod.2002.e.desc
 	}
 
@@ -153,19 +175,15 @@ country_event = {
 				has_valid_civic = civic_fanatic_purifiers
 				has_valid_civic = civic_hive_devouring_swarm
 				has_valid_civic = civic_machine_terminator
-				any_country = {
-						has_country_flag = chrysalis_mod_ruiner
-				}
 			}
 			event_target:chrysalis_country = {
-				any_planet = {
-					has_planet_flag = chrysalis_mod_ruiner_precursor
-				}				
+				has_country_flag = chrysalis_mod_ruiner_precursor			
 			}		
 		}
 		hidden_effect = {
 			set_country_flag = chrysalis_enable_conversion
 		}
+		is_dialog_only = yes
 		response_text = chrysalis_mod.2002.f.desc
 	}
 
@@ -226,60 +244,27 @@ country_event = {
 		}
 	}
 
-	option = { #Conversion - Fanatic Xenophile
+	option = { #Conversion - Xenophile OR Pacifist
 		name = chrysalis_mod.2002.j
 		trigger = {
 			NOR = {
 				has_valid_civic = civic_fanatic_purifiers
 				has_valid_civic = civic_hive_devouring_swarm
 				has_valid_civic = civic_machine_terminator
-			}
-			has_ethic = ethic_fanatic_xenophobe
-			has_country_flag = chrysalis_enable_conversion
-		}			
-		hidden_effect = {
-			country_event = { id = chrysalis_mod.4 days = 360 random = 10 }
-		}
-		response_text = chrysalis_mod.2002.j.desc
-	}
-
-	option = { #Conversion - Fanatic Pacifist
-		name = chrysalis_mod.2002.j
-		trigger = {
-			NOR = {
-				has_valid_civic = civic_fanatic_purifiers
-				has_valid_civic = civic_hive_devouring_swarm
-				has_valid_civic = civic_machine_terminator
-			}
-			has_ethic = ethic_fanatic_pacifist
-			has_country_flag = chrysalis_enable_conversion
-		}
-		hidden_effect = {
-			country_event = { id = chrysalis_mod.4 days = 360 random = 10 }
-		}			
-		response_text = chrysalis_mod.2002.j.desc
-	}
-
-	option = { #Offer vassal
-		name = chrysalis_mod.2002.k
-		trigger = {
-			NOR = {
-				has_valid_civic = civic_fanatic_purifiers
-				has_valid_civic = civic_hive_devouring_swarm
-				has_valid_civic = civic_machine_terminator
+			}			
+			OR = {
 				has_ethic = ethic_fanatic_pacifist
-				has_ethic = ethic_fanatic_spiritualist
+				has_ethic = ethic_fanatic_xenophile
+				has_ethic = ethic_pacifist
+				has_ethic = ethic_xenophile
 			}
-			is_ai = no
-			has_country_flag = chrysalis_asked_why
-		}
-		hidden_effect = {
-			set_subject_of = {
-				who = from
-				subject_type = vassal
-			}
+			has_country_flag = chrysalis_enable_conversion
 		}			
-		response_text = chrysalis_mod.2002.k.desc
+		hidden_effect = {
+			country_event = { id = chrysalis_mod.4 days = 500 random = 300 }
+		}
+		is_dialog_only = yes
+		response_text = chrysalis_mod.2002.j.desc
 	}
 
 	option = {

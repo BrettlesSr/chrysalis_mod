@@ -28,12 +28,14 @@ planet_event = {
 					limit = { 
 						any_country = { 
 							is_country_type = fallen_empire
+							NOT = { has_country_flag = chrysalis_mod_ruiner }
 						}
 					}
 					log = "Chrysalis mod: Picked a fallen empire as ruiner."
 					random_country = {
 						limit = {
 							is_country_type = fallen_empire
+							NOT = { has_country_flag = chrysalis_mod_ruiner }
 						}
 						set_country_flag = chrysalis_mod_ruiner
 					}
@@ -48,14 +50,24 @@ planet_event = {
 					limit = { 
 						any_country = { 
 							is_ai = yes
-							NOT = { is_country_type = fallen_empire }									
+							NOT = { has_country_flag = chrysalis_mod_ruiner }
+							is_country_type = default
+							OR = {
+								has_origin = origin_lost_colony
+								has_origin = origin_remnants
+							}										
 						}
 					}
 					log = "Chrysalis mod: Picked a nearby empire as ruiner."
 					random_country = {
 						limit = {							
-								is_ai = yes
-								NOT = { is_country_type = fallen_empire }							
+							is_ai = yes
+							NOT = { has_country_flag = chrysalis_mod_ruiner }
+							is_country_type = default
+							OR = {
+								has_origin = origin_lost_colony
+								has_origin = origin_remnants
+							}							
 						}
 						set_country_flag = chrysalis_mod_ruiner
 					}
@@ -87,7 +99,7 @@ planet_event = {
 			create_species = {
 			name = "NAME_chrysalis_mod_drone_pop"
 			class = "MACHINE"
-			portrait = "sd_avi_robot"
+			portrait = "sd_hum_robot"
 			traits = {
 				trait = "trait_machine_unit"
 				trait = "trait_robot_efficient_processors"
@@ -132,16 +144,29 @@ country_event = {
 					has_country_flag = chrysalis_mod_taken
 				}
 			}
-			set_relation_flag = {
-				who = event_target:current_chrysallis
-				flag = relation_flag_chrysalis_toward_ruiner
-			}
-			set_country_flag = chrysalis_mod_taken
+			save_event_target_as = current_ruiner
+						set_country_flag = chrysalis_mod_taken
+			log = "Chrysalis mod: Revenge target is [This.GetName]"
+		}
+		set_relation_flag = {
+			who = event_target:current_ruiner
+			flag = relation_flag_chrysalis_toward_ruiner
 		}
 		log = "Chrysalis mod: Survivor relation flags resolved."
 
 		# setting flags
 		set_country_flag = chrysalis_country
+		if = {
+			limit = {
+				capital_scope = {
+					has_planet_flag = chrysalis_mod_ruiner_precursor
+				}
+			}
+			set_country_flag = chrysalis_mod_ruiner_precursor
+			capital_scope = {
+				remove_planet_flag = chrysalis_mod_ruiner_precursor
+			}
+		}
 
 		# setting graphical culture
 		set_graphical_culture = drone
@@ -227,7 +252,7 @@ country_event = {
 			}
 			random_country = {
 				limit = {
-					NOT = { is_country_type = fallen_empire }
+					NOT = { is_country_type = default }
 				}
 				save_event_target_as = chrysalis_pillage_tech
 			}

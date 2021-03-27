@@ -2,7 +2,7 @@ triggered_chrysalis_opinion_of_ruiners = {
 	trigger = {
 		has_country_flag = chrysalis_country
 		FROM = {
-			reverse_has_relation_flag = {
+			has_relation_flag = {
                 who = root
                 flag = relation_flag_chrysalis_toward_ruiner
             }
