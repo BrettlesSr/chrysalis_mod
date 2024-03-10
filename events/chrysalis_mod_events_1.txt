@@ -109,7 +109,7 @@ planet_event = {
 			log = "Chrysalis mod: Survivor drone species created."
 			create_country = {
 						name = "NAME_chrysalis_mod_the_survivor"
-						type = default
+						type = chrysalis
 						species = last_created_species
 						ignore_initial_colony_error = yes
 						day_zero_contact = no
@@ -252,7 +252,7 @@ country_event = {
 			}
 			random_country = {
 				limit = {
-					NOT = { is_country_type = default }
+					is_country_type = default
 				}
 				save_event_target_as = chrysalis_pillage_tech
 			}
